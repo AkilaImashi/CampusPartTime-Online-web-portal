@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration - Job Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .card {
+            max-width: 450px;
+            margin: auto;
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        h1 {
+            color: #1f3c88;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #1f3c88;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #162b63;
+        }
+
+        #message {
+            margin-top: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Student Registration</h1>
+
+    <form id="registerForm">
+        <label for="name">Name</label>
+        <input id="name" required>
+
+        <label for="email">Email</label>
+        <input id="email" type="email" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" required>
+
+        <label for="university">University</label>
+        <input id="university" required>
+
+        <label for="skills">Skills (separate with commas)</label>
+        <input id="skills" placeholder="Java, Spring Boot, MySQL">
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p id="message"></p>
+</div>
+
+<script>
+    const form = document.getElementById("registerForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const skillsText = document.getElementById("skills").value;
+
+        const student = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            university: document.getElementById("university").value,
+            skills: skillsText
+                .split(",")
+                .map(skill => skill.trim())
+                .filter(skill => skill !== "")
+        };
+
+        try {
+            const response = await fetch("/api/auth/register/student", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(student)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.detail || data.message || "Registration failed");
+            }
+
+            message.style.color = "green";
+            message.textContent = "Registration successful. Student ID: " + data.studentId;
+            form.reset();
+
+        } catch (error) {
+            message.style.color = "red";
+            message.textContent = error.message;
+        }
+    });
+</script>
+
+</body>
+</html>
