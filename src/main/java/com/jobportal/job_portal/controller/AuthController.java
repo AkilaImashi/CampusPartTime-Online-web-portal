@@ -1,5 +1,7 @@
 package com.jobportal.job_portal.controller;
 
+import com.jobportal.job_portal.dto.LoginRequest;
+
 import com.jobportal.job_portal.dto.StudentRegisterRequest;
 import com.jobportal.job_portal.model.Student;
 import com.jobportal.job_portal.service.AuthService;
@@ -31,4 +33,20 @@ public class AuthController {
                 "email", student.getEmail()
         ));
     }
+
+    @PostMapping("/login/student")
+    public ResponseEntity<Map<String, Object>> loginStudent(
+            @RequestBody LoginRequest request) {
+
+        Student student = authService.loginStudent(request);
+
+        return ResponseEntity.ok(Map.of(
+                "message", "Login successful",
+                "studentId", student.getId(),
+                "name", student.getName(),
+                "email", student.getEmail(),
+                "role", student.getRole().name()
+        ));
+    }
+
 }

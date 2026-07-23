@@ -1,4 +1,5 @@
 package com.jobportal.job_portal.service;
+import com.jobportal.job_portal.dto.LoginRequest;
 
 import com.jobportal.job_portal.dto.StudentRegisterRequest;
 import com.jobportal.job_portal.model.Role;
@@ -42,4 +43,24 @@ public class AuthService {
 
         return studentRepository.save(student);
     }
+
+    public Student loginStudent(LoginRequest request) {
+        Student student = studentRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.UNAUTHORIZED,
+                        "Invalid email or password"
+                ));
+
+        if (!passwordEncoder.matches(request.getPassword(), student.getPassword())) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Invalid email or password"
+            );
+        }
+
+        return student;
+    }
+
+
+
 }
