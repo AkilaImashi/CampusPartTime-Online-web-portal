@@ -30,7 +30,8 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/students/**",
                                 "/error",
-                                "/register.html"
+                                "/register.html",
+                                "/login.html"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .build();

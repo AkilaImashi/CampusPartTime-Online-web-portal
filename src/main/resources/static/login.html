@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Login - Job Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .card {
+            max-width: 420px;
+            margin: auto;
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        h1 {
+            color: #1f3c88;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #1f3c88;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 16px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Student Login</h1>
+
+    <form id="loginForm">
+        <label for="email">Email</label>
+        <input id="email" type="email" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p id="message"></p>
+</div>
+
+<script>
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const loginData = {
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value
+        };
+
+        try {
+            const response = await fetch("/api/auth/login/student", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(loginData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.detail || "Invalid email or password");
+            }
+
+            localStorage.setItem("studentId", data.studentId);
+            localStorage.setItem("studentName", data.name);
+
+            message.style.color = "green";
+            message.textContent = "Login successful. Welcome, " + data.name + "!";
+
+        } catch (error) {
+            message.style.color = "red";
+            message.textContent = error.message;
+        }
+    });
+</script>
+
+</body>
+</html>
