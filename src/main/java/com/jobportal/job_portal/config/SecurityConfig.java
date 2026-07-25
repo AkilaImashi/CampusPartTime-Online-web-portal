@@ -30,6 +30,7 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/students/**",
                                 "/api/jobs/**",
+                                "/api/admin/**",
                                 "/error",
                                 "/register.html",
                                 "/login.html"
