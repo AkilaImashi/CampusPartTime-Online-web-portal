@@ -177,7 +177,7 @@
             font-size: 15px;
         }
         /* Shiftboard visual theme */
-        :root { --ink: #151923; --paper: #fcfbf7; --warm: #f5ad37; --line: #d8d8c8; --teal: #087b78; }
+        :root { --ink: #171A21; --ink-soft: #2B303B; --paper: #F0F2EA; --paper-alt: #E5E8DD; --card: #FBFBF7; --line: #D6D9CB; --warm: #F0A93C; --warm-dark: #C77F17; --coral: #E35D45; --teal: #1E7A6C; --danger: #C0392B; --text: #1B1E24; --text-soft: #565C4E; }
         * { transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease, transform .16s ease; }
         body { min-height: 100vh; color: var(--ink); background-color: #151923; background-image: radial-gradient(rgba(255,255,255,.075) 1px, transparent 1px); background-size: 28px 28px; }
         .container { max-width: 1100px; margin: 54px auto; padding: 42px; border-radius: 4px; background: #f3f4ed; box-shadow: 0 16px 0 rgba(0,0,0,.12); }
@@ -186,10 +186,11 @@
         select, input { border: 1px solid var(--line); border-radius: 3px; background: #fff; }
         .job-card { border: 1px solid var(--line); border-radius: 4px; background: var(--paper); box-shadow: 0 6px 0 rgba(21,25,35,.10); }
         .job-card:hover { border-color: var(--warm); box-shadow: 0 8px 0 rgba(21,25,35,.13); transform: translateY(-2px); }
-        .badge { border: 1px solid #d5962b; border-radius: 999px; background: #fff1d0; color: #785016; }
+        .badge { border: 1px solid var(--coral); border-radius: 999px; background: #fde3dd; color: #963929; }
+        .badge.long-term { border-color: var(--teal); background: #dcefe9; color: #15584f; }
         .details { color: #50555a; }
-        button { border: 2px solid var(--ink); border-radius: 3px; background: var(--warm); color: var(--ink); box-shadow: none; }
-        button:hover:not(:disabled) { background: #ffc45c; box-shadow: none; }
+        button { border: 2px solid var(--ink); border-radius: 3px; background: var(--coral); color: var(--card); box-shadow: none; }
+        button:hover:not(:disabled) { background: #c94934; box-shadow: none; }
     </style>
 </head>
 
@@ -288,7 +289,7 @@
             <div class="job-card">
                 <h2>${job.title}</h2>
 
-                <span class="badge">${job.type === "ONE_DAY" ? "One-day job" : "Long-term job"}</span>
+                <span class="badge ${job.type === "ONE_DAY" ? "one-day" : "long-term"}">${job.type === "ONE_DAY" ? "One-day job" : "Long-term job"}</span>
 
                 <p class="details"><strong>Description:</strong> ${job.description}</p>
                 <p class="details"><strong>Pay:</strong> Rs. ${job.pay}</p>
