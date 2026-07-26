@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications - Job Portal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #1f3c88;
+            text-align: center;
+        }
+
+        .top-links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #1f3c88;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #applicationList {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .application-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
+        }
+
+        .application-card h2 {
+            color: #1f3c88;
+            margin-top: 0;
+            font-size: 21px;
+        }
+
+        .details {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .PENDING {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .INTERVIEW {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .SELECTED {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .REJECTED {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        #message {
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="top-links">
+        <a href="/jobs.html">Available Jobs</a>
+        <a href="/profile.html">My Profile</a>
+        <a href="/login.html" onclick="logout()">Log out</a>
+    </div>
+
+    <h1>My Job Applications</h1>
+
+    <p id="message"></p>
+
+    <div id="applicationList"></div>
+</div>
+
+<script>
+    const studentId = localStorage.getItem("studentId");
+    const applicationList = document.getElementById("applicationList");
+    const message = document.getElementById("message");
+
+    if (!studentId) {
+        alert("Please log in first.");
+        window.location.href = "/login.html";
+    }
+
+    async function loadApplications() {
+        try {
+            const response = await fetch(
+                `/api/applications/student/${studentId}`
+            );
+
+            if (!response.ok) {
+                throw new Error("Could not load your applications.");
+            }
+
+            const applications = await response.json();
+            displayApplications(applications);
+
+        } catch (error) {
+            message.style.color = "red";
+            message.textContent = error.message;
+        }
+    }
+
+    function displayApplications(applications) {
+        if (applications.length === 0) {
+            applicationList.innerHTML =
+                "<p>You have not applied for any jobs yet.</p>";
+            return;
+        }
+
+        applicationList.innerHTML = applications.map(application => `
+            <div class="application-card">
+                <h2>${application.jobTitle}</h2>
+
+                <span class="status ${application.status}">
+                    ${application.status}
+                </span>
+
+                <p class="details">
+                    <strong>Company:</strong>
+                    ${application.companyName || "Not specified"}
+                </p>
+
+                <p class="details">
+                    <strong>Job type:</strong>
+                    ${application.jobType === "ONE_DAY"
+            ? "One-day job"
+            : "Long-term job"}
+                </p>
+
+                <p class="details">
+                    <strong>Pay:</strong>
+                    Rs. ${application.pay}
+                </p>
+
+                <p class="details">
+                    <strong>Location:</strong>
+                    ${application.location}
+                </p>
+
+                <p class="details">
+                    <strong>Applied on:</strong>
+                    ${new Date(application.appliedOn).toLocaleString()}
+                </p>
+            </div>
+        `).join("");
+    }
+
+    function logout() {
+        localStorage.removeItem("studentId");
+        localStorage.removeItem("studentName");
+    }
+
+    loadApplications();
+</script>
+</body>
+</html>
