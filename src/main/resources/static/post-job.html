@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Job - Job Portal</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 40px; }
+        .card {
+            max-width: 550px; margin: auto; background: white; padding: 28px;
+            border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.12);
+        }
+        h1 { color: #1f3c88; text-align: center; }
+        label { display: block; margin-top: 14px; font-weight: bold; }
+        input, textarea, select {
+            width: 100%; padding: 10px; margin-top: 6px; box-sizing: border-box;
+            border: 1px solid #ccc; border-radius: 5px;
+        }
+        textarea { min-height: 110px; resize: vertical; }
+        button {
+            width: 100%; margin-top: 22px; padding: 12px; border: none;
+            border-radius: 5px; background: #1f3c88; color: white;
+            font-size: 16px; cursor: pointer;
+        }
+        .back { display: block; text-align: center; margin-top: 16px; }
+        #message { margin-top: 16px; text-align: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Post a Job</h1>
+
+    <form id="jobForm">
+        <label for="title">Job Title</label>
+        <input id="title" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" required></textarea>
+
+        <label for="type">Job Type</label>
+        <select id="type" required>
+            <option value="ONE_DAY">One-Day Job</option>
+            <option value="LONG_TERM">Long-Term Job</option>
+        </select>
+
+        <label for="pay">Pay (Rs.)</label>
+        <input id="pay" type="number" min="0" step="0.01" required>
+
+        <label for="jobDate">Job Date</label>
+        <input id="jobDate" type="date">
+
+        <label for="location">Location</label>
+        <input id="location" required>
+
+        <button type="submit">Post Job</button>
+    </form>
+
+    <p id="message"></p>
+    <a class="back" href="/employer-dashboard.html">Back to Dashboard</a>
+</div>
+
+<script>
+    const employerId = localStorage.getItem("employerId");
+
+    if (!employerId) {
+        window.location.href = "/employer-login.html";
+    }
+
+    document.getElementById("jobForm").addEventListener(
+        "submit",
+        async function (event) {
+            event.preventDefault();
+
+            const job = {
+                employerId: Number(employerId),
+                title: document.getElementById("title").value,
+                description: document.getElementById("description").value,
+                type: document.getElementById("type").value,
+                pay: Number(document.getElementById("pay").value),
+                jobDate: document.getElementById("jobDate").value || null,
+                location: document.getElementById("location").value
+            };
+
+            const message = document.getElementById("message");
+
+            try {
+                const response = await fetch("/api/jobs", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(job)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || "Could not post job");
+                }
+
+                message.style.color = "green";
+                message.textContent = "Job posted successfully.";
+
+                setTimeout(function () {
+                    window.location.href = "/employer-dashboard.html";
+                }, 1000);
+
+            } catch (error) {
+                message.style.color = "red";
+                message.textContent = error.message;
+            }
+        }
+    );
+</script>
+
+</body>
+</html>

@@ -34,8 +34,13 @@ public class SecurityConfig {
                                 "/api/employers/**",
                                 "/error",
                                 "/register.html",
-                                "/login.html"
-                        ).permitAll()
+                                "/login.html",
+                                "/employer-register.html",
+                                "/employer-login.html",
+                                "/employer-dashboard.html",
+                                "/post-job.html",
+                                "/applicants.html")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .build();
     }
