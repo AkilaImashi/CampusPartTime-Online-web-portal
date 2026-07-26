@@ -41,6 +41,11 @@
 </div>
 
 <script>
+    const adminId = localStorage.getItem("adminId");
+
+    if (!adminId) {
+        window.location.href = "/admin-login.html";
+    }
     const message = document.getElementById("message");
 
     async function loadData() {
