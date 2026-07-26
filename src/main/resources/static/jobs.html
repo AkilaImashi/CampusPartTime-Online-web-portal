@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Jobs - Job Portal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #1f3c88;
+            text-align: center;
+        }
+
+        .top-links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #1f3c88;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .filter-box {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-left: 8px;
+        }
+
+        #jobList {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .job-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
+        }
+
+        .job-card h2 {
+            color: #1f3c88;
+            margin-top: 0;
+            font-size: 21px;
+        }
+
+        .details {
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e4ecff;
+            color: #1f3c88;
+            padding: 5px 9px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 16px;
+            padding: 11px;
+            border: none;
+            border-radius: 5px;
+            background: #1f3c88;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #162b63;
+        }
+
+        #message {
+            text-align: center;
+            font-weight: bold;
+            margin: 18px 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="top-links">
+        <a href="/profile.html">My Profile</a>
+        <a href="/login.html" onclick="logout()">Log out</a>
+    </div>
+
+    <h1>Available Part-Time Jobs</h1>
+
+    <div class="filter-box">
+        <label for="jobTypeFilter">Filter by job type:</label>
+
+        <select id="jobTypeFilter" onchange="filterJobs()">
+            <option value="ALL">All jobs</option>
+            <option value="ONE_DAY">One-day jobs</option>
+            <option value="LONG_TERM">Long-term jobs</option>
+        </select>
+    </div>
+
+    <p id="message"></p>
+
+    <div id="jobList"></div>
+</div>
+
+<script>
+    const studentId = localStorage.getItem("studentId");
+    const jobList = document.getElementById("jobList");
+    const message = document.getElementById("message");
+
+    let allJobs = [];
+
+    if (!studentId) {
+        alert("Please log in first.");
+        window.location.href = "/login.html";
+    }
+
+    async function loadJobs() {
+        try {
+            const response = await fetch("/api/jobs");
+
+            if (!response.ok) {
+                throw new Error("Could not load jobs.");
+            }
+
+            allJobs = await response.json();
+            displayJobs(allJobs);
+
+        } catch (error) {
+            message.style.color = "red";
+            message.textContent = error.message;
+        }
+    }
+
+    function filterJobs() {
+        const selectedType = document.getElementById("jobTypeFilter").value;
+
+        if (selectedType === "ALL") {
+            displayJobs(allJobs);
+            return;
+        }
+
+        const filteredJobs = allJobs.filter(job => job.type === selectedType);
+        displayJobs(filteredJobs);
+    }
+
+    function displayJobs(jobs) {
+        if (jobs.length === 0) {
+            jobList.innerHTML = "<p>No jobs found for this filter.</p>";
+            return;
+        }
+
+        jobList.innerHTML = jobs.map(job => `
+            <div class="job-card">
+                <h2>${job.title}</h2>
+
+                <span class="badge">${job.type === "ONE_DAY" ? "One-day job" : "Long-term job"}</span>
+
+                <p class="details"><strong>Description:</strong> ${job.description}</p>
+                <p class="details"><strong>Pay:</strong> Rs. ${job.pay}</p>
+                <p class="details"><strong>Location:</strong> ${job.location}</p>
+                <p class="details"><strong>Date:</strong> ${job.jobDate || "Not specified"}</p>
+                <p class="details"><strong>Company:</strong> ${job.companyName || "Not specified"}</p>
+
+                <button onclick="applyToJob(${job.id})">Apply Now</button>
+            </div>
+        `).join("");
+    }
+
+    async function applyToJob(jobId) {
+        try {
+            const response = await fetch("/api/applications", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    studentId: Number(studentId),
+                    jobId: jobId
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.detail || "Could not apply for this job.");
+            }
+
+            message.style.color = "green";
+            message.textContent = "Application submitted successfully.";
+
+        } catch (error) {
+            message.style.color = "red";
+            message.textContent = error.message;
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("studentId");
+        localStorage.removeItem("studentName");
+    }
+
+    loadJobs();
+</script>
+</body>
+</html>
