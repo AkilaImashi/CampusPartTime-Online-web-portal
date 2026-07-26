@@ -39,7 +39,8 @@ public class SecurityConfig {
                                 "/employer-login.html",
                                 "/employer-dashboard.html",
                                 "/post-job.html",
-                                "/applicants.html")
+                                "/applicants.html",
+                                "/admin-dashboard.html")
                         .permitAll()
                         .anyRequest().authenticated())
                 .build();
