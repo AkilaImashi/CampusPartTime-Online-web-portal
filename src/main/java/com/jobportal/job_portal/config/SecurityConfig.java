@@ -32,6 +32,7 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/api/students/**",
                                 "/api/jobs/**",
+                                "/api/applications/**",
                                 "/api/admin/**",
                                 "/api/employers/**",
                                 "/error",
