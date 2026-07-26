@@ -4,20 +4,127 @@
     <meta charset="UTF-8">
     <title>Employer Dashboard - Job Portal</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 30px; }
-        .container { max-width: 950px; margin: auto; }
-        .top { display: flex; justify-content: space-between; align-items: center; }
-        h1, h2 { color: #1f3c88; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            margin: 0;
+            padding: 40px 24px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: auto;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 28px 32px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            color: #0f172a;
+            margin: 0 0 6px 0;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #1e293b 0%, #059669 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #company {
+            color: #64748b;
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        h2 {
+            color: #1e293b;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
         button, .button {
-            display: inline-block; padding: 10px 16px; border: none; border-radius: 5px;
-            background: #1f3c88; color: white; text-decoration: none; cursor: pointer;
+            display: inline-block;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
         }
-        .secondary { background: #666; }
+
+        button:hover, .button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.35);
+        }
+
+        .secondary {
+            background: #f1f5f9 !important;
+            color: #475569 !important;
+            box-shadow: none !important;
+            border: 1px solid #cbd5e1 !important;
+            margin-left: 8px;
+        }
+
+        .secondary:hover {
+            background: #e2e8f0 !important;
+            color: #1e293b !important;
+        }
+
         .job-card {
-            background: white; padding: 20px; margin-top: 16px; border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,.1);
+            background: white;
+            padding: 28px;
+            margin-top: 20px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
         }
-        .message { margin-top: 20px; font-weight: bold; }
+
+        .job-card h3 {
+            color: #0f172a;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .job-card p {
+            color: #475569;
+            line-height: 1.6;
+            font-size: 14px;
+            margin: 6px 0;
+        }
+
+        .message {
+            margin-top: 24px;
+            font-weight: 700;
+            font-size: 15px;
+            color: #64748b;
+        }
     </style>
 </head>
 <body>

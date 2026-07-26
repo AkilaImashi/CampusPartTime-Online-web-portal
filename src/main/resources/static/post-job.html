@@ -4,25 +4,116 @@
     <meta charset="UTF-8">
     <title>Post Job - Job Portal</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 40px; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            margin: 0;
+            padding: 40px 24px;
+            min-height: 100vh;
+        }
+
         .card {
-            max-width: 550px; margin: auto; background: white; padding: 28px;
-            border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,.12);
+            max-width: 580px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
         }
-        h1 { color: #1f3c88; text-align: center; }
-        label { display: block; margin-top: 14px; font-weight: bold; }
+
+        h1 {
+            color: #0f172a;
+            font-size: 28px;
+            font-weight: 800;
+            text-align: center;
+            margin: 0 0 24px 0;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #1e293b 0%, #059669 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #475569;
+        }
+
         input, textarea, select {
-            width: 100%; padding: 10px; margin-top: 6px; box-sizing: border-box;
-            border: 1px solid #ccc; border-radius: 5px;
+            width: 100%;
+            padding: 12px 16px;
+            margin-top: 6px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            color: #0f172a;
+            background: #f8fafc;
         }
-        textarea { min-height: 110px; resize: vertical; }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #059669;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.15);
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
         button {
-            width: 100%; margin-top: 22px; padding: 12px; border: none;
-            border-radius: 5px; background: #1f3c88; color: white;
-            font-size: 16px; cursor: pointer;
+            width: 100%;
+            margin-top: 28px;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
         }
-        .back { display: block; text-align: center; margin-top: 16px; }
-        #message { margin-top: 16px; text-align: center; font-weight: bold; }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #059669;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        #message {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>

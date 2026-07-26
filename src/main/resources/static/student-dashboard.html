@@ -6,15 +6,24 @@
     <title>Student Dashboard - Job Portal</title>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
             margin: 0;
-            padding: 40px;
+            padding: 48px 24px;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1040px;
             margin: auto;
         }
 
@@ -22,64 +31,164 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 28px;
+            margin-bottom: 36px;
+            background: white;
+            padding: 28px 32px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
         }
 
         h1 {
-            color: #1f3c88;
-            margin-bottom: 6px;
+            color: #0f172a;
+            margin: 0 0 6px 0;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .welcome {
-            color: #555;
-            margin-top: 0;
+            color: #64748b;
+            margin: 0;
+            font-size: 15px;
+            font-weight: 500;
         }
 
         .logout-link {
-            color: #1f3c88;
-            font-weight: bold;
+            color: #ef4444;
+            font-weight: 700;
             text-decoration: none;
+            padding: 10px 18px;
+            background: #fef2f2;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .logout-link:hover {
+            background: #fee2e2;
+            color: #dc2626;
         }
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
         }
 
         .dashboard-card {
             display: block;
             background: white;
-            padding: 24px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
-            color: #333;
+            padding: 32px 28px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
+            color: #0f172a;
             text-decoration: none;
-            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            opacity: 0;
+            transition: opacity 0.25s ease;
         }
 
         .dashboard-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px -10px rgba(37, 99, 235, 0.12);
+            border-color: #cbd5e1;
+        }
+
+        .dashboard-card:hover::before {
+            opacity: 1;
         }
 
         .dashboard-card h2 {
             margin-top: 0;
-            color: #1f3c88;
-            font-size: 21px;
+            color: #1e293b;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
         .dashboard-card p {
-            color: #555;
-            line-height: 1.5;
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 14px;
+            margin: 0;
         }
 
-        .application-count {
-            margin-top: 25px;
-            background: #e4ecff;
-            color: #1f3c88;
-            padding: 16px;
-            border-radius: 8px;
-            font-weight: bold;
+        .applied-jobs-section {
+            margin-top: 44px;
+        }
+
+        .applied-jobs-section h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 20px;
+        }
+
+        .applied-jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .applied-job-card {
+            background: white;
+            padding: 24px;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .applied-job-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .job-type-badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .view-job-btn {
+            display: inline-block;
+            text-align: center;
+            padding: 10px 16px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-top: 16px;
+        }
+
+        .view-job-btn:hover {
+            background: #1d4ed8;
         }
     </style>
 </head>
@@ -112,8 +221,11 @@
         </a>
     </div>
 
-    <div class="application-count" id="applicationCount">
-        Loading your application summary...
+    <div class="applied-jobs-section">
+        <h2>My Applied Jobs</h2>
+        <div id="appliedJobsList" class="applied-jobs-grid">
+            <p style="color: #64748b;">Loading your applied jobs...</p>
+        </div>
     </div>
 </div>
 
@@ -129,24 +241,36 @@
     document.getElementById("welcomeMessage").textContent =
         `Welcome back, ${studentName || "Student"}!`;
 
-    async function loadApplicationSummary() {
+    async function loadAppliedJobs() {
+        const container = document.getElementById("appliedJobsList");
         try {
-            const response = await fetch(
-                `/api/applications/student/${studentId}`
-            );
+            const response = await fetch(`/api/applications/student/${studentId}`);
 
             if (!response.ok) {
-                throw new Error("Could not load application summary.");
+                throw new Error("Could not load applied jobs.");
             }
 
             const applications = await response.json();
 
-            document.getElementById("applicationCount").textContent =
-                `You have submitted ${applications.length} job application(s).`;
+            if (applications.length === 0) {
+                container.innerHTML = "<p style='color: #64748b;'>You have not applied to any jobs yet.</p>";
+                return;
+            }
+
+            container.innerHTML = applications.map(app => `
+                <div class="applied-job-card">
+                    <div>
+                        <h3>${app.jobTitle || "Job #" + app.jobId}</h3>
+                        <span class="job-type-badge">${app.jobType === "ONE_DAY" ? "One-Day Job" : "Long-Term Job"}</span>
+                        <p style="color: #64748b; font-size: 14px; margin: 4px 0;"><strong>Company:</strong> ${app.companyName || "N/A"}</p>
+                        <p style="color: #64748b; font-size: 14px; margin: 4px 0;"><strong>Status:</strong> <span style="font-weight: 700; color: #1e293b;">${app.status}</span></p>
+                    </div>
+                    <a href="/my-applications.html" class="view-job-btn">View Job</a>
+                </div>
+            `).join("");
 
         } catch (error) {
-            document.getElementById("applicationCount").textContent =
-                "Your application summary is currently unavailable.";
+            container.innerHTML = "<p style='color: #ef4444;'>Unable to load applied jobs.</p>";
         }
     }
 
@@ -155,7 +279,7 @@
         localStorage.removeItem("studentName");
     }
 
-    loadApplicationSummary();
+    loadAppliedJobs();
 </script>
 </body>
 </html>

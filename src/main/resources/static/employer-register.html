@@ -4,62 +4,99 @@
     <meta charset="UTF-8">
     <title>Employer Registration - Job Portal</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
             margin: 0;
-            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 24px;
+            color: #0f172a;
         }
 
         .card {
-            max-width: 450px;
-            margin: auto;
-            background: white;
-            padding: 28px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(16px);
+            padding: 40px 36px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
         }
 
         h1 {
-            color: #1f3c88;
+            color: #0f172a;
+            font-size: 28px;
+            font-weight: 800;
             text-align: center;
+            margin: 0 0 24px 0;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #1e293b 0%, #059669 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         label {
             display: block;
-            margin-top: 14px;
-            font-weight: bold;
+            margin-top: 18px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #475569;
         }
 
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px 16px;
             margin-top: 6px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            color: #0f172a;
+            background: #f8fafc;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #059669;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.15);
         }
 
         button {
             width: 100%;
-            margin-top: 22px;
-            padding: 12px;
+            margin-top: 28px;
+            padding: 14px 20px;
             border: none;
-            border-radius: 5px;
-            background: #1f3c88;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
             color: white;
+            font-family: inherit;
             font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
         }
 
         button:hover {
-            background: #162b63;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.4);
         }
 
         #message {
-            margin-top: 16px;
+            margin-top: 20px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 14px;
         }
 
         .link {

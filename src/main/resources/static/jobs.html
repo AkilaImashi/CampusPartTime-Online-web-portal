@@ -6,104 +6,175 @@
     <title>Available Jobs - Job Portal</title>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
             margin: 0;
-            padding: 40px;
+            padding: 40px 24px;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1040px;
             margin: auto;
         }
 
         h1 {
-            color: #1f3c88;
+            color: #0f172a;
+            font-size: 32px;
+            font-weight: 800;
             text-align: center;
+            margin: 12px 0 28px 0;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .top-links {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: center;
+            margin-bottom: 24px;
+            background: white;
+            padding: 16px 24px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
         a {
-            color: #1f3c88;
+            color: #2563eb;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
         }
 
         .filter-box {
             background: white;
-            padding: 18px;
-            border-radius: 10px;
-            margin-bottom: 22px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            padding: 20px 24px;
+            border-radius: 16px;
+            margin-bottom: 28px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .filter-box label {
+            font-weight: 700;
+            color: #334155;
+            font-size: 14px;
         }
 
         select {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-left: 8px;
+            padding: 10px 16px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0f172a;
+            background: #f8fafc;
+            cursor: pointer;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: #2563eb;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
         }
 
         #jobList {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
         }
 
         .job-card {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
+            padding: 28px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.08);
+            border-color: #cbd5e1;
         }
 
         .job-card h2 {
-            color: #1f3c88;
+            color: #0f172a;
             margin-top: 0;
-            font-size: 21px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
 
         .details {
-            color: #444;
+            color: #475569;
             line-height: 1.6;
+            font-size: 14px;
+            margin: 6px 0;
         }
 
         .badge {
             display: inline-block;
-            background: #e4ecff;
-            color: #1f3c88;
-            padding: 5px 9px;
-            border-radius: 14px;
-            font-size: 13px;
-            font-weight: bold;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            border: 1px solid #bfdbfe;
         }
 
         button {
             width: 100%;
-            margin-top: 16px;
-            padding: 11px;
+            margin-top: 20px;
+            padding: 13px 18px;
             border: none;
-            border-radius: 5px;
-            background: #1f3c88;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
+            font-family: inherit;
             font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
         }
 
-        button:hover {
-            background: #162b63;
+        button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
         }
 
         #message {
             text-align: center;
-            font-weight: bold;
-            margin: 18px 0;
+            font-weight: 700;
+            margin: 20px 0;
+            font-size: 15px;
         }
     </style>
 </head>
@@ -111,8 +182,11 @@
 <body>
 <div class="container">
     <div class="top-links">
-        <a href="/profile.html">My Profile</a>
-        <a href="/login.html" onclick="logout()">Log out</a>
+        <a href="/student-dashboard.html">← Back to Dashboard</a>
+        <div>
+            <a href="/profile.html" style="margin-right: 16px;">My Profile</a>
+            <a href="/login.html" onclick="logout()" style="color: #ef4444; background: #fef2f2; padding: 6px 14px; border-radius: 8px;">Log out</a>
+        </div>
     </div>
 
     <h1>Available Part-Time Jobs</h1>
