@@ -11,15 +11,17 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-
 public class SecurityConfig {
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
+
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session
@@ -35,16 +37,16 @@ public class SecurityConfig {
                                 "/error",
                                 "/register.html",
                                 "/login.html",
+                                "/profile.html",
                                 "/employer-register.html",
                                 "/employer-login.html",
                                 "/employer-dashboard.html",
                                 "/post-job.html",
                                 "/applicants.html",
                                 "/admin-dashboard.html",
-                                "/admin-login.html")
-                        .permitAll()
+                                "/admin-login.html"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .build();
     }
-
 }
