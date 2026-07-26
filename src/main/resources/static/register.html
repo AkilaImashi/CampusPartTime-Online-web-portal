@@ -88,6 +88,11 @@
     </form>
 
     <p id="message"></p>
+
+    <div style="margin-top: 20px; text-align: center;">
+        <p style="color: #555; margin-bottom: 0;">Already have an account?</p>
+        <a href="/login.html" style="color: #1f3c88; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 6px;">Login here</a>
+    </div>
 </div>
 
 <script>
@@ -126,8 +131,12 @@
             }
 
             message.style.color = "green";
-            message.textContent = "Registration successful. Student ID: " + data.studentId;
+            message.textContent = "Registration successful! Redirecting to login...";
             form.reset();
+
+            setTimeout(() => {
+                window.location.href = "/login.html";
+            }, 1500);
 
         } catch (error) {
             message.style.color = "red";
