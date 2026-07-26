@@ -176,16 +176,33 @@
             margin: 20px 0;
             font-size: 15px;
         }
+        /* Shiftboard visual theme */
+        :root { --ink: #151923; --paper: #fcfbf7; --warm: #f5ad37; --line: #d8d8c8; --teal: #087b78; }
+        * { transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+        body { min-height: 100vh; color: var(--ink); background-color: #151923; background-image: radial-gradient(rgba(255,255,255,.075) 1px, transparent 1px); background-size: 28px 28px; }
+        .container { max-width: 1100px; margin: 54px auto; padding: 42px; border-radius: 4px; background: #f3f4ed; box-shadow: 0 16px 0 rgba(0,0,0,.12); }
+        h1, h2 { color: var(--ink); } h1 { font-size: 32px; letter-spacing: -.03em; }
+        .filter-box { border: 1px solid var(--line); border-radius: 4px; background: var(--paper); }
+        select, input { border: 1px solid var(--line); border-radius: 3px; background: #fff; }
+        .job-card { border: 1px solid var(--line); border-radius: 4px; background: var(--paper); box-shadow: 0 6px 0 rgba(21,25,35,.10); }
+        .job-card:hover { border-color: var(--warm); box-shadow: 0 8px 0 rgba(21,25,35,.13); transform: translateY(-2px); }
+        .badge { border: 1px solid #d5962b; border-radius: 999px; background: #fff1d0; color: #785016; }
+        .details { color: #50555a; }
+        button { border: 2px solid var(--ink); border-radius: 3px; background: var(--warm); color: var(--ink); box-shadow: none; }
+        button:hover:not(:disabled) { background: #ffc45c; box-shadow: none; }
     </style>
 </head>
 
 <body>
 <div class="container">
-    <div class="top-links">
-        <a href="/student-dashboard.html">← Back to Dashboard</a>
-        <div>
-            <a href="/profile.html" style="margin-right: 16px;">My Profile</a>
-            <a href="/login.html" onclick="logout()" style="color: #ef4444; background: #fef2f2; padding: 6px 14px; border-radius: 8px;">Log out</a>
+    <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 16px 28px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <a href="/student-dashboard.html" style="font-size: 20px; font-weight: 800; color: #2563eb; text-decoration: none;">CampusPartTime</a>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <a href="/student-dashboard.html" style="color: #475569; font-weight: 600; text-decoration: none; font-size: 14px;">Home</a>
+            <a href="/jobs.html" style="color: #2563eb; font-weight: 700; text-decoration: none; font-size: 14px;">Available Jobs</a>
+            <a href="/my-applications.html" style="color: #475569; font-weight: 600; text-decoration: none; font-size: 14px;">My Applications</a>
+            <a href="/profile.html" style="color: #475569; font-weight: 600; text-decoration: none; font-size: 14px;">Profile</a>
+            <a href="/login.html" onclick="logout()" style="color: #ef4444; background: #fef2f2; padding: 8px 16px; border-radius: 10px; font-weight: 700; text-decoration: none; font-size: 14px;">Log out</a>
         </div>
     </div>
 

@@ -104,6 +104,19 @@
             font-size: 14px;
             border-radius: 8px;
         }
+        /* Shiftboard visual theme */
+        :root { --ink: #151923; --paper: #fcfbf7; --warm: #f5ad37; --line: #d8d8c8; --teal: #087b78; }
+        * { transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+        body { min-height: 100vh; padding: 40px 20px; color: var(--ink); background-color: #151923; background-image: radial-gradient(rgba(255,255,255,.075) 1px, transparent 1px); background-size: 28px 28px; }
+        .card { max-width: 610px; padding: 50px 40px 36px; border-radius: 4px; background: var(--paper); box-shadow: 0 16px 0 rgba(0,0,0,.12); position: relative; }
+        .card::before { content: ''; width: 24px; height: 24px; position: absolute; top: -16px; left: calc(50% - 12px); border: 3px solid var(--ink); border-radius: 50%; background: var(--warm); box-shadow: 0 0 0 1px var(--warm); }
+        h1 { color: var(--ink); background: none; -webkit-text-fill-color: var(--ink); font-size: 29px; margin-bottom: 12px; }
+        label { color: var(--ink); font-weight: 700; font-size: 15px; }
+        input, select, textarea { border: 1px solid var(--line); border-radius: 3px; background: #fff; padding: 13px 14px; }
+        input:focus, select:focus, textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(8,123,120,.12); }
+        button { border: 2px solid var(--ink); border-radius: 3px; background: var(--warm); color: var(--ink); box-shadow: none; }
+        button:hover { background: #ffc45c; box-shadow: none; transform: translateY(-1px); }
+        a { color: var(--teal) !important; }
     </style>
 </head>
 <body>

@@ -136,6 +136,17 @@
             font-weight: bold;
             margin: 20px 0;
         }
+        /* Shiftboard visual theme */
+        :root { --ink: #151923; --paper: #fcfbf7; --warm: #f5ad37; --line: #d8d8c8; --teal: #087b78; }
+        * { transition: border-color .16s ease, background-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+        body { min-height: 100vh; color: var(--ink); background-color: #151923; background-image: radial-gradient(rgba(255,255,255,.075) 1px, transparent 1px); background-size: 28px 28px; }
+        .container { max-width: 1000px; margin: 54px auto; padding: 42px; border-radius: 4px; background: #f3f4ed; box-shadow: 0 16px 0 rgba(0,0,0,.12); }
+        h1, h2 { color: var(--ink); } h1 { font-size: 32px; letter-spacing: -.03em; }
+        .top-links a { color: var(--teal); }
+        .application-card { border: 1px solid var(--line); border-radius: 4px; background: var(--paper); box-shadow: 0 6px 0 rgba(21,25,35,.10); }
+        .application-card:hover { border-color: var(--warm); transform: translateY(-2px); }
+        .details { color: #50555a; }
+        .status { border-radius: 999px; font-weight: 700; }
     </style>
 </head>
 
