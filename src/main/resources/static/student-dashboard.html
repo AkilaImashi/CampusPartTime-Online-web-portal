@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Job Portal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            color: #1f3c88;
+            margin-bottom: 6px;
+        }
+
+        .welcome {
+            color: #555;
+            margin-top: 0;
+        }
+
+        .logout-link {
+            color: #1f3c88;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .dashboard-card {
+            display: block;
+            background: white;
+            padding: 24px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
+            color: #333;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .dashboard-card h2 {
+            margin-top: 0;
+            color: #1f3c88;
+            font-size: 21px;
+        }
+
+        .dashboard-card p {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .application-count {
+            margin-top: 25px;
+            background: #e4ecff;
+            color: #1f3c88;
+            padding: 16px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>Student Dashboard</h1>
+            <p class="welcome" id="welcomeMessage"></p>
+        </div>
+
+        <a class="logout-link" href="/login.html" onclick="logout()">Log out</a>
+    </div>
+
+    <div class="dashboard-grid">
+        <a class="dashboard-card" href="/profile.html">
+            <h2>My Profile</h2>
+            <p>Update your university, skills, bio, education, resume link, and availability.</p>
+        </a>
+
+        <a class="dashboard-card" href="/jobs.html">
+            <h2>Available Jobs</h2>
+            <p>Browse one-day and long-term jobs, then submit an application.</p>
+        </a>
+
+        <a class="dashboard-card" href="/my-applications.html">
+            <h2>My Applications</h2>
+            <p>View your submitted applications and their current status.</p>
+        </a>
+    </div>
+
+    <div class="application-count" id="applicationCount">
+        Loading your application summary...
+    </div>
+</div>
+
+<script>
+    const studentId = localStorage.getItem("studentId");
+    const studentName = localStorage.getItem("studentName");
+
+    if (!studentId) {
+        alert("Please log in first.");
+        window.location.href = "/login.html";
+    }
+
+    document.getElementById("welcomeMessage").textContent =
+        `Welcome back, ${studentName || "Student"}!`;
+
+    async function loadApplicationSummary() {
+        try {
+            const response = await fetch(
+                `/api/applications/student/${studentId}`
+            );
+
+            if (!response.ok) {
+                throw new Error("Could not load application summary.");
+            }
+
+            const applications = await response.json();
+
+            document.getElementById("applicationCount").textContent =
+                `You have submitted ${applications.length} job application(s).`;
+
+        } catch (error) {
+            document.getElementById("applicationCount").textContent =
+                "Your application summary is currently unavailable.";
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("studentId");
+        localStorage.removeItem("studentName");
+    }
+
+    loadApplicationSummary();
+</script>
+</body>
+</html>

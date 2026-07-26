@@ -41,6 +41,7 @@ public class SecurityConfig {
                                 "/profile.html",
                                 "/jobs.html",
                                 "/my-applications.html",
+                                "/student-dashboard.html",
                                 "/employer-register.html",
                                 "/employer-login.html",
                                 "/employer-dashboard.html",
