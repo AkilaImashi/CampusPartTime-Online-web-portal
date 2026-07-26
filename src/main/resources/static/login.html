@@ -108,7 +108,11 @@
             localStorage.setItem("studentName", data.name);
 
             message.style.color = "green";
-            message.textContent = "Login successful. Welcome, " + data.name + "!";
+            message.textContent = "Login successful. Redirecting to your profile...";
+
+            setTimeout(() => {
+                window.location.href = "/profile.html";
+            }, 700);
 
         } catch (error) {
             message.style.color = "red";

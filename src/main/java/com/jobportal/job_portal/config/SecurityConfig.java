@@ -31,7 +31,8 @@ public class SecurityConfig {
                                 "/api/students/**",
                                 "/error",
                                 "/register.html",
-                                "/login.html"
+                                "/login.html",
+                                "/profile.html"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .build();
