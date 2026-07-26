@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employer Dashboard - Job Portal</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 30px; }
+        .container { max-width: 950px; margin: auto; }
+        .top { display: flex; justify-content: space-between; align-items: center; }
+        h1, h2 { color: #1f3c88; }
+        button, .button {
+            display: inline-block; padding: 10px 16px; border: none; border-radius: 5px;
+            background: #1f3c88; color: white; text-decoration: none; cursor: pointer;
+        }
+        .secondary { background: #666; }
+        .job-card {
+            background: white; padding: 20px; margin-top: 16px; border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,.1);
+        }
+        .message { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top">
+        <div>
+            <h1 id="welcome">Employer Dashboard</h1>
+            <p id="company"></p>
+        </div>
+        <div>
+            <a class="button" href="/post-job.html">Post a Job</a>
+            <button class="secondary" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <h2>My Posted Jobs</h2>
+    <div id="jobList"></div>
+    <p id="message" class="message"></p>
+</div>
+
+<script>
+    const employerId = localStorage.getItem("employerId");
+    const employerName = localStorage.getItem("employerName");
+    const companyName = localStorage.getItem("companyName");
+
+    if (!employerId) {
+        window.location.href = "/employer-login.html";
+    }
+
+    document.getElementById("welcome").textContent =
+        "Welcome, " + employerName;
+    document.getElementById("company").textContent =
+        "Company: " + companyName;
+
+    async function loadJobs() {
+        const jobList = document.getElementById("jobList");
+        const message = document.getElementById("message");
+
+        try {
+            const response = await fetch(
+                "/api/jobs/employer/" + employerId
+            );
+
+            if (!response.ok) {
+                throw new Error("Could not load jobs");
+            }
+
+            const jobs = await response.json();
+
+            if (jobs.length === 0) {
+                message.textContent = "You have not posted any jobs yet.";
+                return;
+            }
+
+            jobList.innerHTML = jobs.map(job => `
+                <div class="job-card">
+                    <h3>${job.title}</h3>
+                    <p>${job.description}</p>
+                    <p><b>Type:</b> ${job.type}</p>
+                    <p><b>Pay:</b> Rs. ${job.pay}</p>
+                    <p><b>Location:</b> ${job.location}</p>
+                    <p><b>Date:</b> ${job.jobDate || "Not specified"}</p>
+                    <a class="button"
+                       href="/applicants.html?jobId=${job.id}">
+                       View Applicants
+                    </a>
+                </div>
+            `).join("");
+
+        } catch (error) {
+            message.style.color = "red";
+            message.textContent = error.message;
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("employerId");
+        localStorage.removeItem("employerName");
+        localStorage.removeItem("companyName");
+        window.location.href = "/employer-login.html";
+    }
+
+    loadJobs();
+</script>
+
+</body>
+</html>

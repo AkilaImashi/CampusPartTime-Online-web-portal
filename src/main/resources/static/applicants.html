@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Applicants - Job Portal</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 30px; }
+    .container { max-width: 950px; margin: auto; }
+    h1 { color: #1f3c88; }
+    .applicant-card {
+      background: white; padding: 20px; margin-top: 16px;
+      border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,.1);
+    }
+    select, button {
+      padding: 9px; border-radius: 5px; border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    button {
+      background: #1f3c88; color: white; border: none; cursor: pointer;
+      margin-left: 8px;
+    }
+    .back { display: inline-block; margin-top: 22px; color: #1f3c88; }
+    #message { margin-top: 18px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Applicants</h1>
+  <div id="applicantList"></div>
+  <p id="message"></p>
+  <a class="back" href="/employer-dashboard.html">← Back to Dashboard</a>
+</div>
+
+<script>
+  const employerId = localStorage.getItem("employerId");
+  const jobId = new URLSearchParams(window.location.search).get("jobId");
+  const applicantList = document.getElementById("applicantList");
+  const message = document.getElementById("message");
+
+  if (!employerId) {
+    window.location.href = "/employer-login.html";
+  }
+
+  if (!jobId) {
+    message.style.color = "red";
+    message.textContent = "Job ID is missing.";
+  } else {
+    loadApplicants();
+  }
+
+  async function loadApplicants() {
+    try {
+      const response = await fetch(
+              "/api/employers/" + employerId +
+              "/jobs/" + jobId + "/applicants"
+      );
+
+      if (!response.ok) {
+        throw new Error("Could not load applicants");
+      }
+
+      const applicants = await response.json();
+
+      if (applicants.length === 0) {
+        message.textContent = "No students have applied for this job yet.";
+        return;
+      }
+
+      applicantList.innerHTML = applicants.map(applicant => `
+                <div class="applicant-card">
+                    <h2>${applicant.studentName}</h2>
+                    <p><b>Email:</b> ${applicant.studentEmail}</p>
+                    <p><b>University:</b> ${applicant.university || "Not added"}</p>
+                    <p><b>Skills:</b> ${(applicant.skills || []).join(", ") || "Not added"}</p>
+                    <p><b>Education:</b> ${applicant.education || "Not added"}</p>
+                    <p><b>Bio:</b> ${applicant.bio || "Not added"}</p>
+                    <p><b>Resume:</b> ${applicant.resumeLink || "Not added"}</p>
+                    <p><b>One-day availability:</b>
+                        ${applicant.availableForOneDay ? "Yes" : "No"}
+                    </p>
+                    <p><b>Current status:</b> ${applicant.status}</p>
+
+                    <select id="status-${applicant.applicationId}">
+                        <option value="PENDING">Pending</option>
+                        <option value="INTERVIEW">Interview</option>
+                        <option value="SELECTED">Selected</option>
+                        <option value="REJECTED">Rejected</option>
+                    </select>
+
+                    <button onclick="updateStatus(${applicant.applicationId})">
+                        Update Status
+                    </button>
+                </div>
+            `).join("");
+
+      applicants.forEach(applicant => {
+        document.getElementById(
+                "status-" + applicant.applicationId
+        ).value = applicant.status;
+      });
+
+    } catch (error) {
+      message.style.color = "red";
+      message.textContent = error.message;
+    }
+  }
+
+  async function updateStatus(applicationId) {
+    const status = document.getElementById(
+            "status-" + applicationId
+    ).value;
+
+    try {
+      const response = await fetch(
+              "/api/employers/" + employerId +
+              "/jobs/" + jobId +
+              "/applications/" + applicationId + "/status",
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ status: status })
+              }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Could not update status");
+      }
+
+      message.style.color = "green";
+      message.textContent = "Application status updated.";
+      loadApplicants();
+
+    } catch (error) {
+      message.style.color = "red";
+      message.textContent = error.message;
+    }
+  }
+</script>
+
+</body>
+</html>
